@@ -1,0 +1,47 @@
+Python script that enables to send short e-mail messages from the system
+terminal or from other Python programs using an external SMTP e-mail account.
+
+Author: Renato Candido <renato@liria.com.br>
+Copyright 2013 Liria Tecnologia <http://www.liria.com.br>
+License: GPL
+
+ABOUT
+-----
+
+This Python script enables to send a short e-mail from the system terminal or
+from another Python script using an external SMTP e-mail account.
+
+INSTALL
+-------
+
+Just copy the script to a location in the system path (such as /usr/local/bin on
+Debian systems).
+
+CONFIG
+------
+
+The config of the SMTP account that will be used to send the e-mails is made on
+the script file itself. Just edit the portion:
+
+# External SMTP account configuration
+SENDER_NAME = "Maillog e-mail"
+SENDER_EMAIL = "sender@provider.com"
+SMTP_SERVER  = "mail.provider.com"
+SMTP_PORT = "587"
+SMTP_LOGIN = "sender@provider.com"
+SMTP_PASSWORD = "smtp_password"
+# End of configuration
+
+USE
+---
+
+To send an e-mail to destination@provider.com, with subject "Warning" and the
+message "Warning: low disk space", from system terminal, call:
+
+  maiilog.py destination@provider.com "Warning" "Warning: low disk space"
+
+From a Python script, the e-mail can be sent using the lines:
+
+  from maillog import send_email
+
+  send_email('destination@provider.com', 'Warning', 'Warning: low disk space')
