@@ -74,10 +74,10 @@ def main():
     maillog.py <destination email address> "<subject>" "<message>"
     """
     if len(sys.argv) != 4:
-        print ("Usage " + __file__ + "<destination email address> "
-               + "\"<subject>\"" + "\"<message>\"")
-        print ("Example: " + __file__ + "bob@gmail.com " + "\"Maillog test\""
-               + "\"If you received this, it worked!\"")
+        print ("Usage " + __file__ + " <destination email address> "
+               + "\"<subject>\"" + " \"<message>\"")
+        print ("Example: " + __file__ + " bob@gmail.com " + "\"Maillog test\""
+               + " \"If you received this, it worked!\"")
     else:
         destination = sys.argv[1]
         subject = sys.argv[2]
