@@ -30,6 +30,7 @@ SMTP_SERVER  = "mail.provider.com"
 SMTP_PORT = "587"
 SMTP_LOGIN = "sender@provider.com"
 SMTP_PASSWORD = "smtp_password"
+USE_SSL = False # True or False
 # End of configuration
 
 USE
@@ -38,10 +39,21 @@ USE
 To send an e-mail to destination@provider.com, with subject "Warning" and the
 message "Warning: low disk space", from system terminal, call:
 
-  maiilog.py destination@provider.com "Warning" "Warning: low disk space"
+  maillog.py destination@provider.com "Warning" "Warning: low disk space"
 
 From a Python script, the e-mail can be sent using the lines:
 
   from maillog import send_email
 
   send_email('destination@provider.com', 'Warning', 'Warning: low disk space')
+
+Multiple recipients can be defined separating the addresses by semicolons. From
+terminal, you may need to use quotes on the first argument:
+
+  maillog.py "destination1@provider.com; destination2@provider.com" "Warning"\
+   "Warning: low disk space"
+
+From a Python script:
+
+  send_email('destination1@provider.com; destination2@provider.com', 
+             'Warning', 'Warning: low disk space')

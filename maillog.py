@@ -24,65 +24,81 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 Changelog:
 
+2013-04-29
+Added support for SMTP using SSL and multiple recipients.
+
 2013-04-22
 Initial commit.
 """
 
 from textwrap import dedent
 import sys
-from smtplib import SMTP
+from smtplib import SMTP, SMTP_SSL
 
 # External SMTP account configuration
 SENDER_NAME = "Maillog e-mail"
 SENDER_EMAIL = "sender@provider.com"
-SMTP_SERVER  = "mail.provider.com"
+SMTP_SERVER = "mail.provider.com"
 SMTP_PORT = "587"
 SMTP_LOGIN = "sender@provider.com"
 SMTP_PASSWORD = "smtp_password"
+USE_SSL = False
 # End of configuration
 
-def send_mail(destination, subject, message, sender_name=SENDER_NAME,
+def send_mail(destinations, subject, message, sender_name=SENDER_NAME,
               sender_email=SENDER_EMAIL, smtp_server=SMTP_SERVER,
               smtp_port=SMTP_PORT, smtp_login=SMTP_LOGIN,
-              smtp_password=SMTP_PASSWORD):
+              smtp_password=SMTP_PASSWORD, use_ssl=USE_SSL):
     """
-    Sends an e-mail to the destination provided, with the subject and message
+    Sends an e-mail to the destinations provided, with the subject and message
     provided. Optionally, the external SMTP account configuration can be set up
     through arguments on the function call.
     """
-    message =  dedent("""\
-    From: %s <%s>
-    To: %s
-    Subject: %s
-    
-    %s
-    """ % (sender_name, sender_email, destination, subject, message))
+    destinations_list = destinations.split(';')
 
-    try:
-        smtpObj = SMTP(smtp_server, smtp_port)
-        smtpObj.login(smtp_login, smtp_password)
-        smtpObj.sendmail(sender_email, destination, message)
-        print "Successfully sent email"
-    except:
-        print "Error: unable to send email"
-        sys.exit(1)
+    for destination in destinations_list:
+        destination = destination.strip()
+        email =  dedent("""\
+        From: %s <%s>
+        To: %s
+        Subject: %s
+        
+        %s
+        """ % (sender_name, sender_email, destination, subject, message))
+     
+        try:
+            if use_ssl:
+                smtpObj = SMTP_SSL(smtp_server, smtp_port)
+            else:
+                smtpObj = SMTP(smtp_server, smtp_port)
+            smtpObj.login(smtp_login, smtp_password)
+            smtpObj.sendmail(sender_email, destination, email)
+            print "Successfully sent email"
+        except:
+            print "Error: unable to send email"
+            sys.exit(1)
 
 def main():
     """
     Main function. Checks the arguments passed to the script and calls
     send_mail() function. This function expects the script to be run as
-    maillog.py <destination email address> "<subject>" "<message>"
+    maillog.py "<destination email addresses>" "<subject>" "<message>"
     """
     if len(sys.argv) != 4:
-        print ("Usage " + __file__ + " <destination email address> "
+        print ("Usage " + __file__ + " \"<destination email addresses>\" "
                + "\"<subject>\"" + " \"<message>\"")
-        print ("Example: " + __file__ + " bob@gmail.com " + "\"Maillog test\""
-               + " \"If you received this, it worked!\"")
+        print ("Example: " + __file__ + " \"bob@gmail.com; ann@gmail.com\" " 
+               + "\"Maillog test\"" + " \"If you received this, it worked!\"")
+        print ""
+        print ("In case of a single recipient, the first argument may not"
+               + " need quotes. For example:\n")
+        print (__file__ + " bob@gmail.com " 
+               + "\"Maillog test\"" + " \"If you received this, it worked!\"")
     else:
-        destination = sys.argv[1]
+        destinations = sys.argv[1]
         subject = sys.argv[2]
         message = sys.argv[3]
-        send_mail(destination, subject, message)
+        send_mail(destinations, subject, message)
 
 if __name__ == '__main__':
     main()
