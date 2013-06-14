@@ -24,6 +24,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 Changelog:
 
+2013-06-13
+Fixed to work with multiline messages.
+
 2013-04-29
 Added support for SMTP using SSL and multiple recipients.
 
