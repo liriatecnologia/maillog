@@ -63,8 +63,9 @@ def send_mail(destinations, subject, message, sender_name=SENDER_NAME,
         To: %s
         Subject: %s
         
-        %s
-        """ % (sender_name, sender_email, destination, subject, message))
+        """ % (sender_name, sender_email, destination, subject))
+
+        email = email + message
      
         try:
             if use_ssl:

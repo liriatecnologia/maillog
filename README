@@ -43,9 +43,9 @@ message "Warning: low disk space", from system terminal, call:
 
 From a Python script, the e-mail can be sent using the lines:
 
-  from maillog import send_email
+  from maillog import send_mail
 
-  send_email('destination@provider.com', 'Warning', 'Warning: low disk space')
+  send_mail('destination@provider.com', 'Warning', 'Warning: low disk space')
 
 Multiple recipients can be defined separating the addresses by semicolons. From
 terminal, you may need to use quotes on the first argument:
@@ -55,5 +55,5 @@ terminal, you may need to use quotes on the first argument:
 
 From a Python script:
 
-  send_email('destination1@provider.com; destination2@provider.com', 
-             'Warning', 'Warning: low disk space')
+  send_mail('destination1@provider.com; destination2@provider.com', 
+            'Warning', 'Warning: low disk space')
