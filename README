@@ -57,3 +57,20 @@ From a Python script:
 
   send_mail('destination1@provider.com; destination2@provider.com', 
             'Warning', 'Warning: low disk space')
+
+Files can be attached using the optinal fourth argument:
+
+  maillog.py "destination1@provider.com; destination2@provider.com" "Warning"\
+   "Warning: low disk space" "/path/to/file1; /path/to/file2"
+
+Or, from a Python script:
+
+  send_mail('destination1@provider.com; destination2@provider.com', 
+            'Warning', 'Low disk space', '/path/to/file1; /path/to/file2')
+
+From Python scripts, you can also use lists for multiple destinations or
+multiple files:
+
+  send_mail(['destination1@provider.com', 'destination2@provider.com'], 
+            'Warning', 'Low disk space', ['/path/to/file1', '/path/to/file2'])
+
