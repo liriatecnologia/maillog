@@ -24,6 +24,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 Changelog:
 
+2014-04-04
+Fixed to display the "from" field correctly.
+
 2014-03-27
 Added support for attaching files in e-mail
 
@@ -77,7 +80,7 @@ def send_mail(destinations, subject, message, files=[], sender_name=SENDER_NAME,
             files[n] = file.strip()
 
     email = MIMEMultipart()
-    email['From'] = sender_name
+    email['From'] = sender_name + " <" + sender_email + ">"    
     email['To'] = COMMASPACE.join(destinations)
     email['Date'] = formatdate(localtime=True)
     email['Subject'] = subject
