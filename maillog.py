@@ -24,11 +24,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 Changelog:
 
+2015-02-14
+Correction to work with special characters.
+
 2014-04-04
 Fixed to display the "from" field correctly.
 
 2014-03-27
-Added support for attaching files in e-mail
+Added support for attaching files in e-mail.
 
 2013-06-13
 Fixed to work with multiline messages.
@@ -84,7 +87,7 @@ def send_mail(destinations, subject, message, files=[], sender_name=SENDER_NAME,
     email['To'] = COMMASPACE.join(destinations)
     email['Date'] = formatdate(localtime=True)
     email['Subject'] = subject
-    email.attach(MIMEText(message))
+    email.attach(MIMEText(message, 'plain', 'utf-8'))
     
     for f in files:
         part = MIMEBase('application', "octet-stream")
